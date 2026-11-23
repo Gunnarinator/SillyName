@@ -1,3 +1,5 @@
+from login_utils import verify_un, verify_pw
+
 def loadDB():
     retval = {}
     with open("db.txt","r") as f:
@@ -12,11 +14,11 @@ def login(db):
     print("Hello what is your username?")
     un = input(">>")
     
-    if(un in db.keys()):
+    if(verify_un(db, un)):
         print("What is ur password")
         pw = input(">>")
     
-        if(db[un] == pw):
+        if(verify_pw(db,un,pw)):
             print("Hello!")
             return True
         else:
@@ -29,5 +31,8 @@ def login(db):
 
 if __name__ == "__main__":
     db = loadDB()
-    login(db)
+    login_success = False
+
+    while(not login_success):
+        login_success = login(db)
     
